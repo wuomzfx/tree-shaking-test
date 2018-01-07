@@ -1,7 +1,7 @@
-const unlessFunc = param => {
+const uselessFunc = param => {
   return 'unless param:' + param.a
 }
-unlessFunc({ a: 123 })
+uselessFunc({ a: 123 })
 
 export default (a, b) => {
   console.log('do multipy')

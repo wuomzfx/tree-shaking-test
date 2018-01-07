@@ -19,7 +19,15 @@ module.exports = {
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.UglifyJsPlugin({
-      mangle: false
+      compress: {
+        warnings: true,
+        pure_getters: true
+      },
+      mangle: false,
+      output: {
+        beautify: true,
+        indent_level: 2
+      }
     })
   ]
 }
