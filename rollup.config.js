@@ -9,7 +9,7 @@ export default {
   },
   plugins: [
     babel({
-      include: 'src/**/*.js'
+      include: 'src/**/*.*'
     }),
     resolve()
   ]

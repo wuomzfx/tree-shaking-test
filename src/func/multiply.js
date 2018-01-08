@@ -1,5 +1,5 @@
 const uselessFunc = param => {
-  return 'unless param:' + param
+  return 'unless param:' + param.a
 }
 uselessFunc({ a: 123 })
 
