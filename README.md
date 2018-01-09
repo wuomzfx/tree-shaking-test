@@ -299,7 +299,3 @@ https://doc.webpack-china.org/configuration/output/#output-librarytarget
 
 副作用例子：https://github.com/rollup/rollup/tree/master/test/form/samples
 
-
-
-聪明的同学肯定会想，那我让它先进行tree-shaking，完了最后再babel编译不就好了嘛？？
-

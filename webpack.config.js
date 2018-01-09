@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const BabelPlugin = require('./babel-plugin')
 
 module.exports = {
   entry: './index.js',
@@ -8,26 +10,33 @@ module.exports = {
     filename: 'webpack-bundle.js'
   },
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: path.resolve(__dirname, 'src')
-      }
-    ]
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: true,
-        pure_getters: true
-      },
-      mangle: false,
-      output: {
-        beautify: true,
-        indent_level: 2
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: true,
+    //     pure_getters: true
+    //   },
+    //   mangle: false,
+    //   output: {
+    //     beautify: true,
+    //     indent_level: 2
+    //   }
+    // }),
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        compress: {
+          warnings: true,
+          pure_getters: true
+        },
+        mangle: false,
+        output: {
+          beautify: true,
+          indent_level: 2
+        }
       }
-    })
+    }),
+    new BabelPlugin()
   ]
 }
