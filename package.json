@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack --config webpack.config.js",
-    "rollup": "rollup -c rollup.config.js"
+    "webpack-lib": "webpack --config webpack.config.lib.js",
+    "rollup": "rollup -c rollup.config.js",
+    "rollup-lib": "rollup -c rollup.config.lib.js"
   },
   "author": "xiangxuezhang",
   "license": "MIT",

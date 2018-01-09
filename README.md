@@ -245,6 +245,56 @@ console.log( cube( 5 ) ); // 125
 
 ## 那到底该怎么办？
 
+聪明的同学肯定会想，既然babel编译导致我们产生了副作用代码，那我们先进行tree-shaking打包，最后再编译bundle文件不就好了嘛。这确实是一个方案，然而可惜的是：这在处理项目自身资源代码时是可行的，处理外部依赖npm包就不行了。因为人家为了让工具包具有通用性、兼容性，大多是经过babel编译的。而最占容量的地方往往就是这些外部依赖包。
+
+那假如我们现在要开发一个组件库提供给别人用，该怎么做？
+
+### 如果是使用webpack打包JavaScript库
+
+先贴下webpack将项目打包为JS库的[文档](https://doc.webpack-china.org/guides/author-libraries)。可以看到webpack有多种导出模式，一般大家都会选择最具通用性的`umd`方式，但是webpack却没支持导出ES模块的模式。
+
+**所以，假如你把所有的资源文件通过webpack打包到一个bundle文件里的话，那这个库文件从此与Tree-shaking无缘。**
+
+那怎么办呢？也不是没有办法。目前业界流行的组件库多是将每一个组件或者功能函数，都打包成单独的文件或目录。然后可以像如下的方式引入：
+```javascript
+import clone from 'lodash/clone'
+
+import Button from 'antd/lib/button';
+```
+但是这样呢也比较麻烦，而且不能同时引入多个组件。所以比较这些流行的组件库大哥如antd，element专门开发了babel插件，使得用户能以`import { Button, Message } form 'antd'`这样的方式去按需加载。本质上就是通过插件将上一句的代码又转化成如下：
+```javascript
+import Button from 'antd/lib/button';
+import Message from 'antd/lib/button';
+```
+这样似乎是最完美的变相tree-shaking方案。唯一不足的是，对于组件库开发者来说，需要专门开发一个babel插件；对于使用者来说，需要引入一个babel插件，稍微略增加了开发成本与使用成本。
+
+除此之外，其实还有一个比较前沿的方法。是rollup的一个[提案](https://github.com/rollup/rollup/wiki/pkg.module)，在package.json中增加一个key：module，如下所示：
+```json
+{
+  "name": "my-package",
+  "main": "dist/my-package.umd.js",
+  "module": "dist/my-package.esm.js"
+}
+```
+这样，当开发者以es6模块的方式去加载npm包时，会以`module`的值为入口文件，这样就能够同时兼容多种引入方式，(rollup以及webpack2+都已支持)。但是webpack不支持导出为es6模块，所以webpack还是要拜拜。我们上rollup!
+
+(有人会好奇，那干脆把未打包前的资源入口文件暴露到`module`，让使用者自己去编译打包好了，那它就能用未编译版的npm包进行tree-shaking了。这样确实也不是不可以。但是，很多工程化项目的babel编译配置，为了提高编译速度，其实是会忽略掉`node_modules`内的文件的。所以为了保证这些同学的使用，我们还是应该要暴露出一份编译过的ES6 Module。)
+
+### 使用rollup打包JavaScript库
+
+吃了那么多亏后，我们终于明白，打包工具库、组件库，还是rollup好用，为什么呢？
+
+1. 它支持导出ES模块的包。
+2. 它支持程序流分析，能更加正确的判断项目本身的代码是否有副作用。
+
+我们只要通过rollup打出两份文件，一份umd版，一份ES模块版，它们的路径分别设为`main`，`module`的值。这样就能方便使用者进行tree-shaking。
+
+
+
+https://doc.webpack-china.org/configuration/output/#output-librarytarget
+
+
+
 
 
 副作用例子：https://github.com/rollup/rollup/tree/master/test/form/samples
@@ -253,4 +303,3 @@ console.log( cube( 5 ) ); // 125
 
 聪明的同学肯定会想，那我让它先进行tree-shaking，完了最后再babel编译不就好了嘛？？
 
-这确实是一个方案，然而可惜的是：这在处理项目资源代码是可行的，处理外部依赖npm包就不行了。因为人家为了让工具包具有通用性、兼容性，大多肯定是经过babel编译的。
