@@ -289,9 +289,7 @@ import Message from 'antd/lib/button';
 
 我们只要通过rollup打出两份文件，一份umd版，一份ES模块版，它们的路径分别设为`main`，`module`的值。这样就能方便使用者进行tree-shaking。
 
-
-
-https://doc.webpack-china.org/configuration/output/#output-librarytarget
+那么问题又来了，使用者并不是用rollup打包自己的工程化项目的，一般多是用webpack，好了彻底走入了死胡同。
 
 
 

@@ -30,6 +30,10 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "uglifyjs-webpack-plugin": "^1.1.6",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-babel-plugin": "^0.0.2"
+  },
+  "dependencies": {
+    "source-map": "^0.6.1"
   }
 }

@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const BabelPlugin = require('./babel-plugin')
+const BabelPlugin = require('webpack-babel-plugin')
 
 module.exports = {
   entry: './index.js',
@@ -37,6 +37,10 @@ module.exports = {
         }
       }
     }),
-    new BabelPlugin()
+    new BabelPlugin({
+      babelOptions: {
+        compact: false
+      }
+    })
   ]
 }
