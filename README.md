@@ -321,6 +321,8 @@ plugins: [
 
 所以如果特性用的非常超前，还是需要`babel-loader`，但是`babel-loader`要做专门的配置，把还在es stage阶段的代码编译成ES2017的代码，以便于`webpack`本身做处理。
 
+**感谢掘金热心网友的提示，还有一个插件[BabelMinifyWebpackPlugin](https://doc.webpack-china.org/plugins/babel-minify-webpack-plugin/)，它所依赖的[babel/minify](https://github.com/babel/minify)也集成了uglifyjs。使用此插件便等同于上述使用UglifyJsPlugin + BabelPlugin的效果，如若有此方面需求，建议使用此插件。**
+
 ## 总结
 
 上面讲了这么多，我最后再总结下，在当下阶段，在tree-shaking上能够尽力的事。
