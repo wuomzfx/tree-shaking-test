@@ -1,4 +1,4 @@
-# 你开启的Tree-Shaking并没什么卵用
+# 你的Tree-Shaking并没什么卵用
 
 > 本文将探讨tree-shaking在当下的现状，以及研究为什么tree-shaking依旧举步维艰的原因，最终总结当下能提高tree-shaking效果的一些手段。
 
@@ -297,7 +297,7 @@ import Message from 'antd/lib/button';
 
 之前也提到了，我们可以先进行tree-shaking，再进行编译，减少编译带来的副作用，从而增加tree-shaking的效果。那么具体应该怎么做呢？
 
-首先我们需要去掉babel-loader，然后webpack打包结束后，再执行babel编译文件。但是由于webpack项目常有多入口文件或者代码拆分等需求，我们又需要写一个配置文件，对应执行babel，这又略显麻烦。所以我们可以使用webpack的plugin，让这个环节依旧跑在webpack的打包流程中，就像[uglifyjs-webpack-babel](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)一样，不再是以loader的形式对单个资源文件进行操作，而是在打包最后的环节进行编译。这里可能需要大家了解下webpack的[plugin机制](https://doc.webpack-china.org/concepts/plugins/)。
+首先我们需要去掉babel-loader，然后webpack打包结束后，再执行babel编译文件。但是由于webpack项目常有多入口文件或者代码拆分等需求，我们又需要写一个配置文件，对应执行babel，这又略显麻烦。所以我们可以使用webpack的plugin，让这个环节依旧跑在webpack的打包流程中，就像[uglifyjs-webpack-plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)一样，不再是以loader的形式对单个资源文件进行操作，而是在打包最后的环节进行编译。这里可能需要大家了解下webpack的[plugin机制](https://doc.webpack-china.org/concepts/plugins/)。
 
 关于uglifyjs-webpack-plugin，这里有一个小细节，webpack默认会带一个低版本的，可以直接用`webpack.optimize.UglifyJsPlugin`别名去使用。具体可以看webpack的[相关说明](https://doc.webpack-china.org/plugins/uglifyjs-webpack-plugin)
 
@@ -336,6 +336,8 @@ plugins: [
 
 > PS: 此文中涉及到的代码，我也传到了github，可以点击阅读原文下载查看。
 
---[阅读原文](https://github.com/wuomzfx/tree-shaking-test) @[相学长](https://www.zhihu.com/people/xiang-xue-zhang)
+--[阅读原文](https://github.com/wuomzfx/tree-shaking-test)
+
+@[丁香园F2E](https://juejin.im/user/59f931526fb9a045023af2a4) @[相学长](https://www.zhihu.com/people/xiang-xue-zhang)
 
 --转载请先经过本人授权。
